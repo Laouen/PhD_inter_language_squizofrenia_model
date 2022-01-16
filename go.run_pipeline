@@ -1,0 +1,7 @@
+for lang in single_language multilanguage; do
+    for context_size in 5 11 17; do
+        for mask_index in middle last; do
+            run_ml_experiment ./pipeline.yaml --data_split.input_map.feature_extraction.1 ${lang}__${context_size}__${mask_index}__X --evaluate_train.parameters.output_path result__${lang}__${context_size}__${mask_index} --evaluate_test.parameters.output_path result__${lang}__${context_size}__${mask_index}
+        done
+    done
+done

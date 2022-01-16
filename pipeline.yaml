@@ -1,0 +1,60 @@
+general:
+  module_paths: ['']
+  save_path: results
+  verbose: 11
+  pandas_sep: ;
+
+calculate_bert_probabilities:
+  force_not_rerun: On
+  bypass: On
+  function: preprocess.calculate_transformer_probas.calculate_transformer_probas
+  parameters:
+    output_path: /home/lbelloli/nas/multilingual_schizophrenia/texts_bert_probabilities
+
+feature_extraction:
+  dependencies: ['calculate_bert_probabilities']
+  output_storage_type: npy
+  cache_output: On
+  function: preprocess.load_data_and_feature_extraction.load_data_and_feature_extraction
+  parameters:
+    data_path: /home/lbelloli/nas/multilingual_schizophrenia/texts_bert_probabilities
+
+data_split:
+  base_module: 'data_split'
+  cache_output: Off
+  input_map:
+    feature_extraction:
+      1: multilingual__17__middle__X
+  output_storage_type: npy
+
+model_selection:
+  base_module: 'model_selection'
+  cache_output: Off
+  parameters:
+    models:
+      LogisticRegression: Off
+      MultiLayerPerceptron: Off
+      GradientBoostingClassifier: Off
+      SupportVectorMachine: Off
+
+predict_train:
+  base_module: 'predict_train'
+  cache_output: Off
+
+predict_test:
+  base_module: 'preduct_test'
+  cache_output: Off
+
+evaluate_test:
+  base_module: 'evaluate_test'
+  input_map:
+    feature_extraction:
+      class_labels: class_labels
+  cache_output: Off
+
+evaluate_train:
+  base_module: 'evaluate_train'
+  input_map:
+    feature_extraction:
+      class_labels: class_labels
+  cache_output: Off

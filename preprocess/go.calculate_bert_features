@@ -1,0 +1,1 @@
+python calculate_transformer_probas.py --output_path /home/lbelloli/nas/multilingual_schizophrenia/texts_bert_probabilities
